@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 public class TankDrive {
-    private DcMotorEx leftMotor;
-    private DcMotorEx rightMotor;
+    private final DcMotorEx leftMotor;
+    private final DcMotorEx rightMotor;
 
     public TankDrive(HardwareMap hw) {
         leftMotor = hw.get(DcMotorEx.class, "leftMotor");
