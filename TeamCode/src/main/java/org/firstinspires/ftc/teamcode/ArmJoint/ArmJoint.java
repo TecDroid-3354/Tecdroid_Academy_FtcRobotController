@@ -14,6 +14,11 @@ public class ArmJoint {
     private PIDController pidController;
 
     private double targetPosition = 0.0;
+
+    private double minLimit = 1.0;
+
+    private double maxLimit = 74.0;
+
     public ArmJoint(HardwareMap hw) {
         armMotor = hw.get(DcMotorEx.class, "armMotor");
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -24,16 +29,27 @@ public class ArmJoint {
     }
     public void goToPosition(){
       double motorPositionInDegrees = getPosition();
-       double voltage = pidController.calculate(motorPositionInDegrees, targetPosition);
+       double voltage = pidController.calculate(motorPositionInDegrees, targetPosition) + 0.15 * Math.cos(Math.toRadians(getPosition()));
 
-       armMotor.setPower(voltage);
+       moveMotor(voltage);
     }
+
+    public void moveMotor(double voltage){
+        if (!(voltage > 0.0 && getPosition() > maxLimit || voltage < 0.0 && getPosition() < minLimit)) {
+            armMotor.setPower(voltage);
+        } else {
+            armMotor.setPower(0.0);
+        }
+    }
+
     public void setTargetPosition(double position){
         targetPosition = position;
     }
 
     public double getPosition(){
-        return (armMotor.getCurrentPosition() / 383.6) * 360.0 ;
+        double maxTicksValue = 286.0;
+
+        return (armMotor.getCurrentPosition()) * 75.0 / maxTicksValue ;
     }
 
 

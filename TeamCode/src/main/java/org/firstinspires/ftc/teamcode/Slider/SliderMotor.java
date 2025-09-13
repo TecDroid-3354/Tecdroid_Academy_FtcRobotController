@@ -15,7 +15,7 @@ public class SliderMotor {
 
     private double minLimit = 0.4;
 
-    private double maxLimit = 4.0;
+    private double maxLimit = 3.5;
 
     public SliderMotor (HardwareMap hw) {
         sliderMotor = hw.get(DcMotorEx.class, "sliderMotor");
@@ -24,7 +24,7 @@ public class SliderMotor {
         sliderMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         sliderMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         sliderMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        pidController = new PIDController(0.01, 0.0, 0.0);
+        pidController = new PIDController(0.001, 0.0, 0.0);
     }
 
 

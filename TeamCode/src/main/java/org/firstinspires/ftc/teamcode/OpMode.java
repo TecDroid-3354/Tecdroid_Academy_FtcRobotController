@@ -45,26 +45,25 @@ public class OpMode extends LinearOpMode {
             telemetry.addData("gripper", gamepad1.right_trigger);
             telemetry.addData("SliderMotor",sliderMotor.getPosition());
 
-            tankDrive.drive(gamepad1.left_stick_y, gamepad1.right_stick_x);
-            //armJoint.goToPosition();
-
-            //armJoint.setTargetPosition(90.0);
+            tankDrive.drive(gamepad1.left_stick_y, -gamepad1.right_stick_x);
+            armJoint.goToPosition();
 
 
-            if (gamepad1.y){armJoint.setTargetPosition(90.0);}
-            if (gamepad1.b){armJoint.setTargetPosition(50.0);}
             if (gamepad1.a){
-                armJoint.setTargetPosition(20.0);
+                armJoint.setTargetPosition(10.0);
+                gripper.open();
+            }
+            if (gamepad1.b){
+                armJoint.setTargetPosition(75.0);
+            }
+            if (gamepad1.y){
+                armJoint.setTargetPosition(50.0);
             }
 
             if (gamepad1.right_trigger > 0.0) {
-                sliderMotor.moveMotor(1.0);
+                sliderMotor.moveMotor(0.8);
             }
-            else {
-                sliderMotor.moveMotor(0.0);
-            }
-
-            if (gamepad1.left_trigger > 0.0){
+            else if (gamepad1.left_trigger > 0.0){
                 sliderMotor.moveMotor(-0.4);
             } else {
                 sliderMotor.moveMotor(0.0);
